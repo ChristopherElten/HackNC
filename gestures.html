@@ -6,6 +6,16 @@
 <body>
 
 <div id="Frames"></div>
+<div id="Left">Left -></div>
+<div id="Right">Right -></div>
+
+<div id="test"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></div>
+
 <!-- Architecture -->
 <script src="https://js.leapmotion.com/leap-0.6.4.js"></script>
 <script src="https://js.leapmotion.com/leap-plugins-0.1.8.js"></script>
@@ -13,18 +23,18 @@
 <script type="text/javascript">
 
 //Displaying Frame
-var output = document.getElementById('Frames');
+var Frames = document.getElementById('Frames');
+var Left = document.getElementById('Left');
+var Right = document.getElementById('Right');
 
-Leap.loop(function (frame) {
-	output.innerHTML = 'Frame: ' + frame.id;
-});
+var test = document.getElementById('test');
 
 //Cursor Object
 var Cursor = function() {
 	var cursor = this;
 	//Cursor Image
 	var img = document.createElement('img');
-	img.src = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/109794/cat_2.png';
+	img.src = 'http://www.dotuscomus.com/pergola/gfx/closeButton.png';
 	//Image positioning independent of html
 	img.style.position = 'absolute';
 	//Appending abs. image...
@@ -54,14 +64,29 @@ var Cursor = function() {
 
 //Cursors
 var cursors = {};
-
-Leap.loop(function(frame){
+var temp;
+Leap.loop(function(frame){	
+	//Frames passed
+	Frames.innerHTML = 'Frame: ' + frame;
 
 	//Getting Cursors from hands
 	frame.hands.forEach(function(hand,index){
+
+		//Hand-cursor information
+		if (hand.type === 'left') {
+			temp = document.elementFromPoint(hand.screenPosition(), hand.screenPosition());
+			Left.innerHTML = 'Left -> <br>Confidence Left: ' + hand.confidence + '<br> Pos Left: ' + hand.screenPosition() + '<br> temp: ' + temp;
+
+
+		}
+		if (hand.type === 'right') {
+			Right.innerHTML = 'Confidence Right: ' + hand.confidence;
+		}
+
 		var cursor = ( cursors[index] || (cursors[index] = new Cursor()));
-		//Repositioning cursors
+		//Repositioning cursors and rotating
     	cursor.setTransform(hand.screenPosition(), hand.roll());
+    	document.elementFromPoint(hand.screenPosition(), hand.screenPosition());
 	});
 }).use('screenPosition', {scale: 0.25});
 
