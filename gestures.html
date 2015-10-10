@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>HACK NC - Gestures</title>
+</head>
+<body>
+
+<div id="Frames"></div>
+<script src="https://js.leapmotion.com/leap-0.6.4.js"></script>
+
+<script type="text/javascript">
+
+//Displaying Frame
+var output = document.getElementById('Frames');
+
+Leap.loop(function (frame) {
+	output.innerHTML = 'Frame: ' + frame.id;
+});
+
+
+</script>
+</body>
+</html>
