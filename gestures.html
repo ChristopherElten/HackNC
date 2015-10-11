@@ -18,7 +18,7 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></di
 
 <!-- Architecture -->
 <script src="https://js.leapmotion.com/leap-0.6.4.js"></script>
-<script src="https://js.leapmotion.com/leap-plugins-0.1.8.js"></script>
+<script src="https://js.leapmotion.com/leap-plugins-0.1.11.js"></script>
 
 <script type="text/javascript">
 
@@ -62,10 +62,15 @@ var Cursor = function() {
 	};
 };
 
+// Controller
+
+
 //Cursors
 var cursors = {};
 var temp;
-Leap.loop(function(frame){	
+
+var controller = Leap.loop({enableGestures: true}, function(frame){
+	console.log(frame.gestures);
 	//Frames passed
 	Frames.innerHTML = 'Frame: ' + frame;
 
@@ -74,7 +79,11 @@ Leap.loop(function(frame){
 
 		//Hand-cursor information
 		if (hand.type === 'left') {
-			temp = document.elementFromPoint(hand.screenPosition(), hand.screenPosition());
+			// temp = document.elementFromPoint(hand.screenPosition(), hand.screenPosition());
+			// temp = hand.hold();
+
+			// console.log(temp);
+
 			Left.innerHTML = 'Left -> <br>Confidence Left: ' + hand.confidence + '<br> Pos Left: ' + hand.screenPosition() + '<br> temp: ' + temp;
 
 
@@ -90,8 +99,9 @@ Leap.loop(function(frame){
 	});
 }).use('screenPosition', {scale: 0.25});
 
+//center load of cursor
 cursors[0] = new Cursor();
-
+controller.setBackground(true);
 </script>
 </body>
 </html>
