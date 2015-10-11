@@ -31,8 +31,11 @@ var controller = Leap.loop({enableGestures: true}, function(frame){
 				chrome.runtime.sendMessage("next_tab");
 				chrome.runtime.sendMessage("weather");
 
+
+				//Wolfram weather GET request
 				function reqListener () {
 					alert(this.responseText[9]  + this.responseText[10] + "°C");
+					console.log(this.responseText[9]  + this.responseText[10] + "°C");
 				}
 
 				var oReq = new XMLHttpRequest();
