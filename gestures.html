@@ -70,7 +70,34 @@ var cursors = {};
 var temp;
 
 var controller = Leap.loop({enableGestures: true}, function(frame){
-	console.log(frame.gestures);
+	//Gestures
+	var gests = frame.gestures;
+	if (gests.length > 0) {
+		console.log(gests);
+
+		for(var i = 0; i < gests.length; i++){
+			if (gests[i].type === 'screenTap') {
+				console.log("SCREEN TAP BITCHES");
+
+				//Iframe generation of app.
+				// var iframe = document.createElement('iframe');
+				// var html = '<body>Foo</body>';
+				// document.body.appendChild(iframe);
+				// iframe.contentWindow.document.open();
+				// iframe.contentWindow.document.write(html);
+				// iframe.contentWindow.document.close();
+
+				// iframe.src = 'https://www.youtube.com/';
+
+				// document.body.appendChild(iframe);
+
+				window.location ='https://www.youtube.com/';
+			}
+			if (gests[i].type === 'swipe'){
+				window.close();
+			}
+		}
+	}
 	//Frames passed
 	Frames.innerHTML = 'Frame: ' + frame;
 
@@ -79,13 +106,8 @@ var controller = Leap.loop({enableGestures: true}, function(frame){
 
 		//Hand-cursor information
 		if (hand.type === 'left') {
-			// temp = document.elementFromPoint(hand.screenPosition(), hand.screenPosition());
-			// temp = hand.hold();
-
-			// console.log(temp);
 
 			Left.innerHTML = 'Left -> <br>Confidence Left: ' + hand.confidence + '<br> Pos Left: ' + hand.screenPosition() + '<br> temp: ' + temp;
-
 
 		}
 		if (hand.type === 'right') {
