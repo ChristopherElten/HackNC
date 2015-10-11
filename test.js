@@ -27,7 +27,19 @@ var controller = Leap.loop({enableGestures: true}, function(frame){
 			//keyTap Gesture
 			if (gests[i].type === 'keyTap'){
 				console.log("Key Tap");
+
 				chrome.runtime.sendMessage("next_tab");
+				chrome.runtime.sendMessage("weather");
+
+				function reqListener () {
+					alert(this.responseText[9]  + this.responseText[10] + "°C");
+				}
+
+				var oReq = new XMLHttpRequest();
+				oReq.addEventListener("load", reqListener);
+				oReq.open("GET", "https://www.wolframcloud.com/objects/3f3b3f58-02c6-4909-a69f-432d0c9e375f");
+				oReq.send();
+
 			}
 		}
 		//--------------------------------------------------------------------------------

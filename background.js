@@ -29,6 +29,10 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse) {
 	if (response == "random_text"){
 		console.log("Random Text");
 	}
+
+	if(response == "weather"){
+		console.log("Weather");
+	}
 	//--------------------------------------------------------------------------------
 
 });
