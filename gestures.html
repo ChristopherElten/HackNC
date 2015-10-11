@@ -53,7 +53,7 @@ var Cursor = function() {
       );
 
     document.body.appendChild(img);
-  	}
+  	};
 
 	//Transforming pos. of cursor
 	cursor.setTransform = function(position, rotation) {
@@ -73,13 +73,40 @@ var e = new jQuery.Event("click");
 //Cursors
 var cursors = {};
 var temp;
-var test = function(){
+var test1 = function(){
 		console.log("BOOOOOOOYAH");
-}
+};
 var controller = Leap.loop({enableGestures: true}, function(frame){
-	//if(frame.gestures.value != "[]") {
 
-	//}
+	//Gestures
+	var gests = frame.gestures;
+	if (gests.length > 0) {
+		console.log(gests);
+
+		for(var i = 0; i < gests.length; i++){
+			//if (gests[i].type === 'screenTap') {
+			//	console.log("SCREEN TAP BITCHES");
+
+				//Iframe generation of app.
+				// var iframe = document.createElement('iframe');
+				// var html = '<body>Foo</body>';
+				// document.body.appendChild(iframe);
+				// iframe.contentWindow.document.open();
+				// iframe.contentWindow.document.write(html);
+				// iframe.contentWindow.document.close();
+
+				// iframe.src = 'https://www.youtube.com/';
+
+				// document.body.appendChild(iframe);
+
+				//window.location ='https://www.youtube.com/';
+			//}
+			if (gests[i].type === 'swipe'){
+				window.close();
+			}
+		}
+	}
+
 	//Frames passed
 	Frames.innerHTML = 'Frame: ' + frame;
 
@@ -89,6 +116,7 @@ var controller = Leap.loop({enableGestures: true}, function(frame){
 		f = hand.indexFinger.tipPosition[0];
 		//Hand-cursor information
 		if (hand.type === 'left') {
+
 			console.log(hand.pinchStrength.toPrecision(2));
 			// temp = document.elementFromPoint(hand.screenPosition(), hand.screenPosition());
 			// temp = hand.hold();
@@ -102,8 +130,8 @@ var controller = Leap.loop({enableGestures: true}, function(frame){
 			}
 			// console.log(temp);
 
-			Left.innerHTML = 'Left -> <br>Confidence Left: ' + hand.confidence + '<br> Pos Left: ' + hand.screenPosition() + '<br> temp: ' + temp;
 
+			Left.innerHTML = 'Left -> <br>Confidence Left: ' + hand.confidence + '<br> Pos Left: ' + hand.screenPosition() + '<br> temp: ' + temp;
 
 		}
 		if (hand.type === 'right') {
