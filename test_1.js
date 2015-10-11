@@ -1,9 +1,10 @@
-//Displaying Frame
-var Frames = document.getElementById('Frames');
-var Left = document.getElementById('Left');
-var Right = document.getElementById('Right');
-
-var test = document.getElementById('test');
+//HUD
+var hud = document.createElement('div');
+hud.style.position = 'absolute';
+//Top Right Pos.
+hud.style.left =  20 + "px";
+hud.style.top = 30 + "px";
+document.body.appendChild(hud);
 
 //Cursor Object
 var Cursor = function() {
@@ -52,7 +53,8 @@ function showCoords(event) {
 
 var controller = Leap.loop({enableGestures: true}, function(frame){
 
-
+	//Hud
+	hud.innerHTML = 'Frames: ' + frame + " : " +frame.id;
 
 	//Getting Cursors from hands
 	frame.hands.forEach(function(hand,index){
@@ -66,8 +68,8 @@ var controller = Leap.loop({enableGestures: true}, function(frame){
 			for (var i = 0; i < gests.length; i++) {
 				//If the user performs a 'screeTap' or push forward with the leap motion, it will display an image on the screen
 				if (gests[i].type === 'screenTap') {
-					var btn = new Image(50, 50); // width, height values are optional params
-					btn.src = 'http://www.operatorchan.org/pbe/src/133834517210.png'; // To be modded
+					var btn = new Image(); // width, height values are optional params
+					btn.src = 'https://mlh.io/assets/home/mlh-logo-bf75bed928c5c0bed4dfed7294656d78.png'; // To be modded
 					btn.style.position = "absolute";
 					btn.style.left = (x + 800) + "px";
 					btn.style.top = (y) + "px";
@@ -75,40 +77,43 @@ var controller = Leap.loop({enableGestures: true}, function(frame){
 				}
 				//if the user pinchs with force over 1, it will trigger the current page to be cleared and a canvas will be generated with new leap motion coordinates
 				if (hand.pinchStrength >= 1) {
+					console.log("Pinch");
+
+					//------------------------html canvas integration - scrapped ---------------------
 					//Clear the current HTML page
-					document.body.innerHTML = '';
-					console.log("HTML Cleared");
+					// document.body.innerHTML = '';
+					// console.log("HTML Cleared");
 					//Create a new canvas on the cleared HTML page
-					var canvasReplace = document.createElement('canvas');
-					canvasReplace.width = "1580";
-					canvasReplace.height = "750";
-					canvasReplace.id = "displayArea";
-					canvasReplace.style.background = "#dddddd";
-					document.body.appendChild(canvasReplace);
-					var canvasElement = document.getElementById("displayArea");
-					var displayArea = canvasElement.getContext("2d");
-					controller = new Leap.Controller();
-					controller.on("frame", function (frame) {
-						if (frame.pointables.length > 0) {
-							canvasElement.width = canvasElement.width; //clear
+					// var canvasReplace = document.createElement('canvas');
+					// canvasReplace.width = "1580";
+					// canvasReplace.height = "750";
+					// canvasReplace.id = "displayArea";
+					// canvasReplace.style.background = "#dddddd";
+					// document.body.appendChild(canvasReplace);
+					// var canvasElement = document.getElementById("displayArea");
+					// var displayArea = canvasElement.getContext("2d");
+					// controller = new Leap.Controller();
+					// controller.on("frame", function (frame) {
+					// 	if (frame.pointables.length > 0) {
+					// 		canvasElement.width = canvasElement.width; //clear
 
 							//Get a pointable and normalize the tip position
-							var pointable = frame.pointables[0];
-							var interactionBox = frame.interactionBox;
-							var normalizedPosition = interactionBox.normalizePoint(pointable.tipPosition, true);
+							// var pointable = frame.pointables[0];
+							// var interactionBox = frame.interactionBox;
+							// var normalizedPosition = interactionBox.normalizePoint(pointable.tipPosition, true);
 
 							// Convert the normalized coordinates to span the canvas
-							var canvasX = canvasElement.width * normalizedPosition[0];
-							var canvasY = canvasElement.height * (1 - normalizedPosition[1]);
+							// var canvasX = canvasElement.width * normalizedPosition[0];
+							// var canvasY = canvasElement.height * (1 - normalizedPosition[1]);
 							//we can ignore z 
 
-							displayArea.strokeText("(" + canvasX.toFixed(1) + ", " + canvasY.toFixed(1) + ")", canvasX, canvasY);
-							displayArea.strokeStyle = "black";
-							displayArea.lineWidth = 1;
-							displayArea.stroke();
-						}
+							// displayArea.strokeText("(" + canvasX.toFixed(1) + ", " + canvasY.toFixed(1) + ")", canvasX, canvasY);
+							// displayArea.strokeStyle = "black";
+							// displayArea.lineWidth = 1;
+							// displayArea.stroke();
+						// }
 
-					});
+					// });
 				}
 			}
 		}
