@@ -16,6 +16,11 @@ consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></div>
 
+<button width = "200px " height = "200px" text-align = "center" onClick = "test();">
+	BIG ASS BUTTON BRUH
+</button>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- Architecture -->
 <script src="https://js.leapmotion.com/leap-0.6.4.js"></script>
 <script src="https://js.leapmotion.com/leap-plugins-0.1.11.js"></script>
@@ -64,24 +69,37 @@ var Cursor = function() {
 
 // Controller
 
-
+var e = new jQuery.Event("click");
 //Cursors
 var cursors = {};
 var temp;
-
+var test = function(){
+		console.log("BOOOOOOOYAH");
+}
 var controller = Leap.loop({enableGestures: true}, function(frame){
-	console.log(frame.gestures);
+	//if(frame.gestures.value != "[]") {
+
+	//}
 	//Frames passed
 	Frames.innerHTML = 'Frame: ' + frame;
 
 	//Getting Cursors from hands
 	frame.hands.forEach(function(hand,index){
-
+		e = hand.indexFinger.tipPosition[1];
+		f = hand.indexFinger.tipPosition[0];
 		//Hand-cursor information
 		if (hand.type === 'left') {
+			console.log(hand.pinchStrength.toPrecision(2));
 			// temp = document.elementFromPoint(hand.screenPosition(), hand.screenPosition());
 			// temp = hand.hold();
+			if (Math.round(hand.indexFinger.tipPosition[1]) == Math.round(hand.middleFinger.tipPosition[1])){
+				if (document.elementFromPoint(f, e) && document.elementFromPoint(f, e).click() != null){
+					document.elementFromPoint(f, e).click();
+				}
 
+				console.log(e);
+				console.log("I wanna clitc you biaatch");
+			}
 			// console.log(temp);
 
 			Left.innerHTML = 'Left -> <br>Confidence Left: ' + hand.confidence + '<br> Pos Left: ' + hand.screenPosition() + '<br> temp: ' + temp;
@@ -89,6 +107,7 @@ var controller = Leap.loop({enableGestures: true}, function(frame){
 
 		}
 		if (hand.type === 'right') {
+			console.log(hand.pinchStrength.toPrecision(2));
 			Right.innerHTML = 'Confidence Right: ' + hand.confidence;
 		}
 
@@ -103,5 +122,6 @@ var controller = Leap.loop({enableGestures: true}, function(frame){
 cursors[0] = new Cursor();
 controller.setBackground(true);
 </script>
+
 </body>
 </html>
