@@ -1,0 +1,29 @@
+{
+  "manifest_version": 2,
+
+  "name": "Getting started example",
+  "description": "This extension shows a Google Image search result for the current page",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html",
+    "default_title": "HackNC!"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "permissions": [
+    "background",
+    "bookmarks",
+    "activeTab",
+    "https://ajax.googleapis.com/"
+  ],
+  "content_scripts": [
+    {
+        "matches": ["http://*/*", "https://*/*"],
+        "js": ["leap-0.6.4.js", "leap-plugins-0.1.11.js", "test.js", "test_1.js"]
+    }
+  ]
+
+}
