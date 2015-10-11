@@ -69,40 +69,22 @@ var Cursor = function() {
 
 // Controller
 
-var e = new jQuery.Event("click");
 //Cursors
 var cursors = {};
-var temp;
-var test1 = function(){
-		console.log("BOOOOOOOYAH");
-};
+
 var controller = Leap.loop({enableGestures: true}, function(frame){
 
 	//Gestures
 	var gests = frame.gestures;
 	if (gests.length > 0) {
-		console.log(gests);
 
 		for(var i = 0; i < gests.length; i++){
-			//if (gests[i].type === 'screenTap') {
-			//	console.log("SCREEN TAP BITCHES");
+			if (gests[i].type === 'screenTap') {
+				console.log("SCREEN TAP BITCHES");
+			}
 
-				//Iframe generation of app.
-				// var iframe = document.createElement('iframe');
-				// var html = '<body>Foo</body>';
-				// document.body.appendChild(iframe);
-				// iframe.contentWindow.document.open();
-				// iframe.contentWindow.document.write(html);
-				// iframe.contentWindow.document.close();
-
-				// iframe.src = 'https://www.youtube.com/';
-
-				// document.body.appendChild(iframe);
-
-				//window.location ='https://www.youtube.com/';
-			//}
 			if (gests[i].type === 'swipe'){
-				window.close();
+				console.log("Swipe lol");	
 			}
 		}
 	}
@@ -112,42 +94,44 @@ var controller = Leap.loop({enableGestures: true}, function(frame){
 
 	//Getting Cursors from hands
 	frame.hands.forEach(function(hand,index){
-		e = hand.indexFinger.tipPosition[1];
-		f = hand.indexFinger.tipPosition[0];
+		// x, y, z array
+		x = hand.indexFinger.tipPosition[1];
+		y = hand.indexFinger.tipPosition[0];
+
 		//Hand-cursor information
 		if (hand.type === 'left') {
 
-			console.log(hand.pinchStrength.toPrecision(2));
-			// temp = document.elementFromPoint(hand.screenPosition(), hand.screenPosition());
-			// temp = hand.hold();
 			if (Math.round(hand.indexFinger.tipPosition[1]) == Math.round(hand.middleFinger.tipPosition[1])){
-				if (document.elementFromPoint(f, e) && document.elementFromPoint(f, e).click() != null){
-					document.elementFromPoint(f, e).click();
+				if (document.elementFromPoint(x, y) && document.elementFromPoint(f, e).click() != null){
+					document.elementFromPoint(x, y).click();
 				}
 
-				console.log(e);
-				console.log("I wanna clitc you biaatch");
+				console.log(x);
+				console.log("I wanna click you biaatch");
 			}
-			// console.log(temp);
 
-
-			Left.innerHTML = 'Left -> <br>Confidence Left: ' + hand.confidence + '<br> Pos Left: ' + hand.screenPosition() + '<br> temp: ' + temp;
-
+			Left.innerHTML = 'Left -> <br>Confidence Left: ' + hand.confidence + '<br> Pos Left: ' + hand.screenPosition();
 		}
+
 		if (hand.type === 'right') {
-			console.log(hand.pinchStrength.toPrecision(2));
 			Right.innerHTML = 'Confidence Right: ' + hand.confidence;
 		}
 
-		var cursor = ( cursors[index] || (cursors[index] = new Cursor()));
+		var cursor = (cursors[index] || (cursors[index] = new Cursor()));
+
 		//Repositioning cursors and rotating
     	cursor.setTransform(hand.screenPosition(), hand.roll());
+
+    	//This is not working... Investigate if necessary
+    	//Meant to select DOM elements based on x, y coordinates on screen
     	document.elementFromPoint(hand.screenPosition(), hand.screenPosition());
 	});
+
 }).use('screenPosition', {scale: 0.25});
 
-//center load of cursor
+//center load of cursor when page loads without hand motion...
 cursors[0] = new Cursor();
+//Working hand motions when browser isn't focused
 controller.setBackground(true);
 </script>
 
